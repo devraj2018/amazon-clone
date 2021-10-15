@@ -1,4 +1,6 @@
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth"
+import "firebase/compat/firestore"
 
 
 const firebaseConfig = {
@@ -11,4 +13,9 @@ const firebaseConfig = {
   measurementId: "G-32ET70LZFM"
 };
 
-const firebaseApp= firebase.initializeApp(firebaseConfig);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+const db = firebaseApp.firestore();
+const auth = firebase.auth();
+
+export { db, auth };
