@@ -7,6 +7,14 @@ import Login from './Login';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
+import Payment from "./Payment";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import Orders from './Orders';
+
+const promise =loadStripe(
+   "pk_test_51Jl81LSDLSdcmkHoQAYj7CtnYSPwOZPaZMDejg6Mjy45lJiIbyiuoMX24XlIhoB7wvQBcDWsx3Hz22blZTMvqUd900Y4aixN50"
+);
 
 
 function App() {
@@ -33,16 +41,20 @@ function App() {
            //the user is logged out
             dispatch({
                type: 'SET_USER',
-               user: null
-             })
+               user: null,
+             });
         }
-     })
-   }, [])
+     });
+   }, []);
 
   return (
     <Router>
        <div className="app">
           <Switch>
+             <Route path='/orders'>
+                <Header />
+                <Orders />
+                </Route>
              <Route path='/login'>
                 <Login />
                 </Route>
@@ -50,6 +62,12 @@ function App() {
                 <Header />
                <Checkout />
             </Route>
+             <Route path="/payment">
+            <Header />
+            <Elements stripe={promise}>
+              <Payment />
+            </Elements>
+          </Route>
             <Route path="/">     {/*Default root always in bottom*/}
                <Header />
                <Home />
